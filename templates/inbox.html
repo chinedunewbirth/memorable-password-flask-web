@@ -1,0 +1,32 @@
+{% extends 'dashboard.html' %}
+{% block inbox %}
+<div class="card card-body">
+	<table class="table table-striped">
+	  <thead>
+		<tr>
+		  <th scope="col">#</th>
+		  <th scope="col">Subject</th>
+		  <th scope="col">Sender</th>
+		  <th scope="col">Message</th>
+		  <th scope="col">Flag</th>
+		  <th scope="col">Level Risk</th>
+		  <th scope="col">Datetime</th>
+		</tr>
+	  </thead>
+	  <tbody>
+	  {% for msg in messages %}
+		<tr>
+		  <th scope="row">{{ loop.index }}</th>
+		  <td>{{ msg.subject }}</td>
+		  <td>{{ msg.reciever }}</td>
+		  <td class="truncate-cell">{{ msg.message }}</td>
+		  <td>{{ msg.flag }}</td>
+		  <td>{{ msg.risk }}</td>
+		  <td>{{ msg.date.strftime('%Y-%m-%d %H:%M:%S') }}
+		  </td>
+		</tr>
+	   {% endfor %}
+	  </tbody>
+	</table>
+</div>
+{% endblock %}

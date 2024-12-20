@@ -1,0 +1,27 @@
+{% extends 'dashboard.html' %}
+{% block outbox %}
+<div class="card card-body">
+	<form action="{{ url_for('outbox') }}" method="POST">
+			<!-- Email input -->
+			<div class="form-outline mb-3">
+				<label class="form-label" for="form4Example2">Email address</label>
+			    <input type="email" id="form4Example2" name="email" class="form-control" />
+			</div>
+
+	        <!-- Name input -->
+		    <div class="form-outline mb-3">
+				<label class="form-label" for="form4Example1">Subject</label>
+				<input type="text" id="form4Example1" name="subject" class="form-control" />
+			</div>
+
+			<!-- Message input -->
+			<div class="form-outline mb-3">
+				<label class="form-label" for="form4Example3">Message</label>
+				<textarea class="form-control" id="form4Example3" name="message" rows="4"></textarea>
+			</div>
+
+			<!-- Submit button -->
+			<button type="submit" class="btn btn-primary btn-block mb-4">Send</button>
+	</form>
+</div>
+{% endblock %}
