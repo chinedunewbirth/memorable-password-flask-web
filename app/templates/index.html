@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+{% block index %}
+<nav class="navbar bg-light fixed-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Memorable Password Flask Web</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasNavbarLabel">
+			<center>Memorable Password Flask Web<center></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
+          </li>
+		  {% if 'email' in session%}
+		  <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('dashboard') }}" >Dashboard - {{ session['email'] }}</a>
+          </li>
+		  <li class="nav-item">
+			<a class="nav-link" href="{{'logout'}}">Logout</a>
+		  </li>
+		  {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#register">Register</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Login
+            </a>
+            <ul class="dropdown-menu">
+			  <form action="/login" method="POST" style="padding:10px;">
+				<input type="text" class="form-control" name="codeid" placeholder="Enter code-id ..." required style="margin-bottom:3px;">
+				<center>
+					<button class="btn btn-success">Check</button>
+				</center>
+			  </form>
+            </ul>
+          </li>
+		  {% endif %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+{# index page  #}
+<div class="container-fluid" style="margin-top:100px;">
+	<div class="row">
+		<div class="col-md-12">
+			<center>
+				<h3 style="padding:20px; color:black;">
+					A memorable password Flask web app lets users create and store strong, easy-to-remember passwords. 
+					It uses Flask for the backend, a simple HTML/CSS/JS frontend for user interaction, and integrates 
+					password-strength algorithms and storage encryption. Features include password suggestions, storage,
+					and retrieval with authentication for security
+				</h3>
+			</center>
+		</div>
+	</div>
+</div>
+<center> 
+	{% with messages = get_flashed_messages() %}
+	   {% if messages %}
+		  {% for message in messages %}
+			 <h3 style="color:black">{{ message }}</h3>
+		  {% endfor %}
+	   {% endif %}
+	{% endwith %}
+</center>
+{# index page end #}
+<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#login" style="display:none;">Open Modal</button>
+{# register page #}
+<!-- Modal -->
+<div class="modal fade" id="register" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Register Users</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="{{ url_for('register') }}" method="POST">
+			<input type="email" name="email" class="form-control" placeholder="Enter email!" required  style="margin-bottom:3px;" >
+			<input type="text" name="word" class="form-control" placeholder="Enter memorable word!" required  style="margin-bottom:3px;" >
+			<center>
+				<button class="btn btn-success">Submit Word</button>
+			</center>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+{# register page end #}
+{# login modal page #}
+<div class="modal fade" id="mylogin" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Enter Memoral Letter Position</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body" >
+        <form action="/check" method="POST" >
+			<div class="container" style="margin-bottom:3px;">
+				<div class="row">
+					<div class="col-md-4">
+						<center><h1>{{ data[0] }}</h1></center>
+						<input type="text" name="pos0" class="form-control" required   >
+					</div>
+					<div class="col-md-4">
+						<center><h1>{{ data[1] }}</h1></center>
+						<input type="text" name="pos1" class="form-control" required   >
+					</div>
+					<div class="col-md-4">
+						<center><h1>{{ data[2] }}</h1></center>
+						<input type="text" name="pos2" class="form-control" required   >
+					</div>
+				</div>
+			</div>
+			<center>
+				<button class="btn btn-success">Submit Position</button>
+			</center>
+		</form>
+      </div>
+    </div>
+  </div>
+</div>
+{# login modal page end #}
+{% if trigger_modal %}
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		var myModal = new bootstrap.Modal(document.getElementById('mylogin'));
+		myModal.show();
+	});
+</script>
+{% endif %}
+{% endblock %}
