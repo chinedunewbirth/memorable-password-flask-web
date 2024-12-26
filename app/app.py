@@ -102,6 +102,7 @@ def login():
 @app.route('/check', methods=["POST", "GET"])
 def check():
     try:
+        global data, lstPos, email
         if request.method == "POST":
             pos0 = request.form["pos0"]
             pos1 = request.form["pos1"]
@@ -116,6 +117,9 @@ def check():
             if lstAns == lstPos:
                 session['email'] = email
                 flash("Welcome user!")
+                data = None
+                lstPos = []
+                email = None
                 return redirect(url_for('dashboard'))
             else:
                 flash('Wrong letter to position match!!')
@@ -127,9 +131,6 @@ def check():
 @app.route('/logout')
 def logout():
     try:
-        global data, lstPos
-        data = None
-        lstPos = []
         session.pop('email', None)
         flash('User logged out!')
         return redirect(url_for('index'))
