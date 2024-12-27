@@ -64,7 +64,7 @@ def register():
 @app.route('/dashboard')
 def dashboard():
     try:
-        count = Email.query.filter_by(sender=session['email']).count()
+        count = email.query.filter_by(sender=session['email']).count()
         print(count)
         if session['email']:
             return render_template('dashboard.html', count=count)
